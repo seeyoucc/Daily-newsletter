@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Daily Wire — Global, India, Sports & Comics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#10161C;
+    --panel:#161E27;
+    --panel-hover:#1B2530;
+    --text:#ECE8DD;
+    --muted:#8B93A1;
+    --rule: rgba(236,232,221,0.09);
+    --global:#6C93C7;
+    --india:#E8A33D;
+    --sports:#6FA37A;
+    --editorial:#C97B6B;
+    --comics:#C9A6E0;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(108,147,199,0.10), transparent 60%),
+      radial-gradient(ellipse 900px 500px at 85% 0%, rgba(232,163,61,0.08), transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Source Serif 4', Georgia, serif;
+    min-height:100vh;
+  }
+  a{color:inherit;}
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px 80px;}
+
+  /* Masthead */
+  .masthead{padding:36px 20px 0;text-align:center;}
+  .masthead .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--muted);
+  }
+  .masthead h1{
+    font-family:'Big Shoulders Display', sans-serif;
+    font-weight:800;
+    font-size:clamp(40px, 8vw, 72px);
+    letter-spacing:.01em;
+    margin:6px 0 4px;
+    line-height:.95;
+  }
+  .masthead .tagline{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;color:var(--muted);letter-spacing:.03em;
+  }
+  .masthead .dateline{
+    margin-top:14px;font-family:'IBM Plex Mono',monospace;font-size:12px;
+    color:var(--muted); display:flex; gap:14px; justify-content:center; flex-wrap:wrap;
+  }
+  .masthead .dateline b{color:var(--text); font-weight:600;}
+
+  /* Ticker */
+  .ticker-shell{
+    margin-top:22px; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
+    background:rgba(255,255,255,0.02); overflow:hidden; white-space:nowrap; position:relative;
+  }
+  .ticker-shell::before, .ticker-shell::after{
+    content:""; position:absolute; top:0; bottom:0; width:60px; z-index:2; pointer-events:none;
+  }
+  .ticker-shell::before{ left:0; background:linear-gradient(90deg, var(--bg), transparent); }
+  .ticker-shell::after{ right:0; background:linear-gradient(270deg, var(--bg), transparent); }
+  .ticker-track{
+    display:inline-flex; gap:48px; padding:9px 0; animation: scroll-left 55s linear infinite;
+    font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--muted);
+  }
+  .ticker-track span{ color:var(--text); opacity:.85; }
+  .ticker-track em{ font-style:normal; color:var(--india); margin-right:8px; }
+  @keyframes scroll-left{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+  /* Nav */
+  .quicknav{
+    display:flex; gap:8px; justify-content:center; flex-wrap:wrap;
+    margin:22px 0 8px; font-family:'IBM Plex Mono',monospace; font-size:12px;
+  }
+  .quicknav a{
+    padding:6px 12px; border:1px solid var(--rule); border-radius:99px;
+    text-decoration:none; color:var(--muted); transition:.15s;
+  }
+  .quicknav a:hover{ border-color:currentColor; color:var(--text); }
+
+  .toolbar{
+    display:flex; align-items:center; justify-content:center; gap:12px;
+    margin:14px 0 30px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted);
+  }
+  #refresh-btn{
+    font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.04em;
+    background:var(--panel); border:1px solid var(--rule); color:var(--text);
+    padding:8px 16px; border-radius:99px; cursor:pointer; transition:.15s;
+  }
+  #refresh-btn:hover{ background:var(--panel-hover); }
+  #refresh-btn:disabled{ opacity:.5; cursor:default; }
+
+  /* Section */
+  .section{ margin-top:52px; scroll-margin-top:24px; }
+  .section-head{ display:flex; align-items:center; gap:14px; margin-bottom:18px; }
+  .badge{
+    font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:13px;
+    width:46px; height:46px; border-radius:50%; flex:none;
+    display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.1;
+    border:1.5px dashed currentColor;
+  }
+  .section-head h2{
+    font-family:'Big Shoulders Display', sans-serif; font-weight:800;
+    font-size:26px; margin:0; letter-spacing:.01em; text-transform:uppercase;
+  }
+  .section-head .count{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--muted); margin-left:auto; }
+
+  .section--global .badge, .section--global .accent{ color:var(--global); }
+  .section--india .badge, .section--india .accent{ color:var(--india); }
+  .section--sports .badge, .section--sports .accent{ color:var(--sports); }
+  .section--editorial .badge, .section--editorial .accent{ color:var(--editorial); }
+  .section--comics .badge, .section--comics .accent{ color:var(--comics); }
+
+  .story-list{ list-style:none; margin:0; padding:0; border-top:1px solid var(--rule); }
+  .story{
+    display:flex; gap:16px; padding:14px 4px; border-bottom:1px solid var(--rule);
+    text-decoration:none; color:var(--text); transition:.15s;
+  }
+  .story:hover{ background:rgba(255,255,255,0.025); }
+  .story .num{
+    font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted);
+    flex:none; width:22px; padding-top:3px;
+  }
+  .story .body{ flex:1; min-width:0; }
+  .story .title{ font-size:16.5px; line-height:1.35; }
+  .story .meta{
+    font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted);
+    margin-top:5px; letter-spacing:.02em;
+  }
+
+  .placeholder{
+    padding:18px 4px; color:var(--muted); font-family:'IBM Plex Mono',monospace; font-size:12.5px;
+  }
+  .placeholder.err{ color:var(--editorial); }
+
+  /* Comics */
+  .comics-grid{ display:grid; grid-template-columns:1fr; gap:16px; }
+  .xkcd-card{
+    border:1px solid var(--rule); border-radius:10px; padding:20px; background:var(--panel);
+    text-align:center;
+  }
+  .xkcd-card img{ max-width:100%; height:auto; border-radius:6px; background:#fff; padding:10px; }
+  .xkcd-card .cap{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted); margin-top:12px; }
+  .strip-links{ display:flex; flex-wrap:wrap; gap:10px; margin-top:4px; }
+  .strip-link{
+    flex:1 1 140px; text-align:center; padding:14px 10px; border:1px solid var(--rule); border-radius:10px;
+    background:var(--panel); text-decoration:none; color:var(--text); font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px; transition:.15s;
+  }
+  .strip-link:hover{ background:var(--panel-hover); border-color:var(--comics); }
+
+  footer{
+    margin-top:70px; padding-top:24px; border-top:1px solid var(--rule);
+    text-align:center; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted);
+    line-height:1.8;
+  }
+  footer a{ color:var(--muted); text-decoration:underline; }
+
+  @media (max-width:560px){
+    .section-head h2{ font-size:21px; }
+    .badge{ width:38px; height:38px; font-size:11px; }
+    .story .title{ font-size:15px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="eyebrow">Personal Wire &middot; Curated Live</div>
+  <h1>THE DAILY WIRE</h1>
+  <div class="tagline">Global &middot; India &middot; Sports &middot; Editorials &middot; Comics</div>
+  <div class="dateline">
+    <span id="edition-date">—</span>
+    <span>&middot;</span>
+    <span id="edition-time">—</span>
+  </div>
+</div>
+
+<div class="ticker-shell">
+  <div class="ticker-track" id="ticker-track">
+    <span><em>WIRE</em>Loading today's headlines…</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <nav class="quicknav">
+    <a href="#global">🌍 Global</a>
+    <a href="#india">🇮🇳 India</a>
+    <a href="#sports">🏆 Sports</a>
+    <a href="#editorials">✍️ Editorials</a>
+    <a href="#comics">😄 Comics</a>
+  </nav>
+  <div class="toolbar">
+    <span id="status-text">Fetching live feeds…</span>
+    <button id="refresh-btn">↻ Refresh</button>
+  </div>
+
+  <section class="section section--global" id="global">
+    <div class="section-head">
+      <div class="badge">15</div>
+      <h2>Global News</h2>
+      <div class="count" id="global-count"></div>
+    </div>
+    <ul class="story-list" id="global-list">
+      <li class="placeholder">Loading global headlines…</li>
+    </ul>
+  </section>
+
+  <section class="section section--india" id="india">
+    <div class="section-head">
+      <div class="badge">10</div>
+      <h2>India News</h2>
+      <div class="count" id="india-count"></div>
+    </div>
+    <ul class="story-list" id="india-list">
+      <li class="placeholder">Loading India headlines…</li>
+    </ul>
+  </section>
+
+  <section class="section section--sports" id="sports">
+    <div class="section-head">
+      <div class="badge">05</div>
+      <h2>Sports</h2>
+      <div class="count" id="sports-count"></div>
+    </div>
+    <ul class="story-list" id="sports-list">
+      <li class="placeholder">Loading sports headlines…</li>
+    </ul>
+  </section>
+
+  <section class="section section--editorial" id="editorials">
+    <div class="section-head">
+      <div class="badge">✍</div>
+      <h2>Editorials</h2>
+      <div class="count" id="editorial-count"></div>
+    </div>
+    <ul class="story-list" id="editorial-list">
+      <li class="placeholder">Loading editorials…</li>
+    </ul>
+  </section>
+
+  <section class="section section--comics" id="comics">
+    <div class="section-head">
+      <div class="badge">☺</div>
+      <h2>Comics</h2>
+    </div>
+    <div class="comics-grid">
+      <div class="xkcd-card" id="xkcd-card">
+        <div class="placeholder">Loading today's xkcd…</div>
+      </div>
+      <div class="strip-links">
+        <a class="strip-link" href="https://www.gocomics.com/calvinandhobbes" target="_blank" rel="noopener">Calvin & Hobbes →</a>
+        <a class="strip-link" href="https://www.gocomics.com/garfield" target="_blank" rel="noopener">Garfield →</a>
+        <a class="strip-link" href="https://www.gocomics.com/peanuts" target="_blank" rel="noopener">Peanuts →</a>
+        <a class="strip-link" href="https://www.gocomics.com/dilbert-classics" target="_blank" rel="noopener">Dilbert →</a>
+      </div>
+      <div class="placeholder" style="text-align:center;">xkcd is openly licensed (CC BY-NC), so it's shown directly here. The others are copyrighted, so they link out to read free on GoComics.</div>
+    </div>
+  </section>
+
+  <footer>
+    Sources: BBC, Al Jazeera, The Hindu, Indian Express, NDTV, Hindustan Times, Times of India, BBC Sport, ESPN, The Conversation, xkcd, GoComics.<br>
+    This page fetches live RSS on every load via a public CORS proxy (api.allorigins.win) — no server or account needed.<br>
+    Built for personal use. Headlines link back to the original publishers.
+  </footer>
+
+</div>
+
+<script>
+// Multiple CORS proxies, tried in order — if the first is down or rate-limited,
+// we automatically fall through to the next one. This is the fix for feeds
+// intermittently (or entirely) failing to load.
+const PROXIES = [
+  url => 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(url),
+  url => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url),
+  url => 'https://corsproxy.io/?url=' + encodeURIComponent(url),
+];
+
+const FEEDS = {
+  global: [
+    'https://feeds.bbci.co.uk/news/world/rss.xml',
+    'https://www.aljazeera.com/xml/rss/all.xml'
+  ],
+  india: [
+    'https://www.thehindu.com/news/national/?service=rss',
+    'https://indianexpress.com/feed/',
+    'https://feeds.feedburner.com/NDTV-LatestNews',
+    'https://www.hindustantimes.com/feeds/rss/latest/rssfeed.xml',
+    'https://timesofindia.indiatimes.com/rssfeedstopstories.cms'
+  ],
+  sports: [
+    'https://feeds.bbci.co.uk/sport/rss.xml',
+    'https://www.espn.com/espn/rss/news'
+  ],
+  editorial: [
+    'https://theconversation.com/us/articles.atom'
+  ]
+};
+
+const COUNTS = { global: 15, india: 10, sports: 5, editorial: 6 };
+
+function fmtTime(dateStr){
+  const d = new Date(dateStr);
+  if(isNaN(d)) return '';
+  const now = new Date();
+  const diffMs = now - d;
+  const diffH = diffMs / 36e5;
+  if(diffH < 1) return Math.max(1, Math.round(diffH*60)) + 'm ago';
+  if(diffH < 24) return Math.round(diffH) + 'h ago';
+  return d.toLocaleDateString(undefined, {month:'short', day:'numeric'});
+}
+
+function hostFromUrl(u){
+  try{ return new URL(u).hostname.replace(/^www\./,''); }catch(e){ return ''; }
+}
+
+function parseFeed(xmlText){
+  const doc = new DOMParser().parseFromString(xmlText, 'text/xml');
+  if(doc.querySelector('parsererror')) return [];
+  const items = [];
+  const rssItems = doc.querySelectorAll('item');
+  if(rssItems.length){
+    rssItems.forEach(it=>{
+      items.push({
+        title: (it.querySelector('title')?.textContent || '').trim(),
+        link: (it.querySelector('link')?.textContent || '').trim(),
+        date: it.querySelector('pubDate')?.textContent || '',
+        desc: it.querySelector('description')?.textContent || ''
+      });
+    });
+  } else {
+    doc.querySelectorAll('entry').forEach(en=>{
+      const linkEl = en.querySelector('link');
+      items.push({
+        title: (en.querySelector('title')?.textContent || '').trim(),
+        link: linkEl ? (linkEl.getAttribute('href') || linkEl.textContent || '') : '',
+        date: en.querySelector('updated')?.textContent || en.querySelector('published')?.textContent || '',
+        desc: en.querySelector('summary')?.textContent || ''
+      });
+    });
+  }
+  return items;
+}
+
+async function fetchFeed(url){
+  let lastErr;
+  for(const buildProxyUrl of PROXIES){
+    try{
+      const res = await fetch(buildProxyUrl(url), { cache: 'no-store' });
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      const text = await res.text();
+      const items = parseFeed(text);
+      if(items.length) return items; // success — stop trying other proxies
+      lastErr = new Error('parsed 0 items');
+    } catch(e){
+      lastErr = e;
+      console.warn('proxy failed for', url, '→', e.message);
+      // try the next proxy in the list
+    }
+  }
+  throw lastErr || new Error('all proxies failed');
+}
+
+async function loadSection(key){
+  const urls = FEEDS[key];
+  const listEl = document.getElementById(key + '-list');
+  const countEl = document.getElementById(key + '-count');
+  let all = [];
+  let failures = 0;
+  const results = await Promise.allSettled(urls.map(fetchFeed));
+  results.forEach(r=>{
+    if(r.status === 'fulfilled') all = all.concat(r.value);
+    else failures++;
+  });
+
+  all = all.filter(it => it.title);
+  all.sort((a,b) => new Date(b.date) - new Date(a.date));
+  const top = all.slice(0, COUNTS[key]);
+
+  listEl.innerHTML = '';
+  if(!top.length){
+    listEl.innerHTML = '<li class="placeholder err">Couldn\'t load this section right now — the source feeds or proxy may be temporarily unavailable. Try Refresh, or open the sources directly from the footer.</li>';
+    return;
+  }
+  top.forEach((it, i)=>{
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.className = 'story';
+    a.href = it.link;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.innerHTML = `
+      <span class="num accent">${String(i+1).padStart(2,'0')}</span>
+      <span class="body">
+        <span class="title">${it.title}</span>
+        <span class="meta">${hostFromUrl(it.link)} &middot; ${fmtTime(it.date)}</span>
+      </span>`;
+    li.appendChild(a);
+    listEl.appendChild(li);
+  });
+  countEl.textContent = failures ? `${top.length} shown · ${failures} source(s) unavailable` : `${top.length} shown`;
+  return top;
+}
+
+async function loadXkcd(){
+  const card = document.getElementById('xkcd-card');
+  try{
+    const items = await fetchFeed('https://xkcd.com/rss.xml');
+    const latest = items[0];
+    const tmp = document.createElement('div');
+    tmp.innerHTML = latest.desc;
+    const img = tmp.querySelector('img');
+    if(img){
+      card.innerHTML = `
+        <img src="${img.getAttribute('src')}" alt="${(img.getAttribute('alt')||'xkcd comic').replace(/"/g,'&quot;')}">
+        <div class="cap">"${latest.title}" — xkcd.com &middot; <a href="${latest.link}" target="_blank" rel="noopener" class="accent">view full-size →</a></div>`;
+    } else {
+      card.innerHTML = `<div class="placeholder"><a href="${latest.link}" target="_blank" rel="noopener" class="accent">View today's xkcd: "${latest.title}" →</a></div>`;
+    }
+  }catch(e){
+    card.innerHTML = `<div class="placeholder err">Couldn't load xkcd right now. <a href="https://xkcd.com" target="_blank" rel="noopener" class="accent">Open xkcd.com →</a></div>`;
+  }
+}
+
+function buildTicker(allTop){
+  const track = document.getElementById('ticker-track');
+  const flat = [].concat(allTop.global||[], allTop.india||[], allTop.sports||[]).filter(x=>x && x.title);
+  if(!flat.length){ return; }
+  const pick = flat.slice(0, 20);
+  const html = pick.map(it => `<span><em>WIRE</em>${it.title}</span>`).join('');
+  track.innerHTML = html + html; // duplicate for seamless loop
+}
+
+function setDateline(){
+  const now = new Date();
+  document.getElementById('edition-date').textContent = now.toLocaleDateString(undefined, { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  document.getElementById('edition-time').textContent = now.toLocaleTimeString(undefined, { hour:'2-digit', minute:'2-digit' });
+}
+
+async function loadAll(){
+  const btn = document.getElementById('refresh-btn');
+  const status = document.getElementById('status-text');
+  btn.disabled = true;
+  status.textContent = 'Fetching live feeds…';
+  setDateline();
+
+  const [g, i, s, e] = await Promise.all([
+    loadSection('global'),
+    loadSection('india'),
+    loadSection('sports'),
+    loadSection('editorial'),
+  ]);
+  loadXkcd();
+  buildTicker({ global: g, india: i, sports: s });
+
+  status.textContent = 'Last updated ' + new Date().toLocaleTimeString();
+  btn.disabled = false;
+}
+
+document.getElementById('refresh-btn').addEventListener('click', loadAll);
+loadAll();
+</script>
+
+</body>
+</html>
